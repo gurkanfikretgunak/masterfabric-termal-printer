@@ -2,40 +2,20 @@
 
 import { usePrinter } from '@/hooks/usePrinter';
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import MobileContainer from '@/components/layout/MobileContainer';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import PrinterTabs from '@/components/dashboard/PrinterTabs';
-import ElementLayerList from '@/components/dashboard/ElementLayerList';
 import SplashFooter from '@/components/splash/SplashFooter';
 import { CheckCircle2, XCircle, AlertCircle, Wifi } from 'lucide-react';
-import { BadgeElement } from '@/components/dashboard/BadgeDesigner';
 
 export default function DashboardPage() {
   const router = useRouter();
   const { isConnected, statusMessage, printerState, disconnect } = usePrinter();
-  const [eventPreviewCanvas, setEventPreviewCanvas] = useState<HTMLCanvasElement | null>(null);
   const [activeTab, setActiveTab] = useState('text');
-  const [designerElements, setDesignerElements] = useState<BadgeElement[]>([]);
-  const [selectedDesignerElement, setSelectedDesignerElement] = useState<string | null>(null);
-  const previewCanvasRef = useRef<HTMLCanvasElement>(null);
-
-  // Update preview canvas when event preview changes
-  useEffect(() => {
-    if (eventPreviewCanvas && previewCanvasRef.current) {
-      const ctx = previewCanvasRef.current.getContext('2d');
-      if (ctx) {
-        previewCanvasRef.current.width = eventPreviewCanvas.width;
-        previewCanvasRef.current.height = eventPreviewCanvas.height;
-        ctx.fillStyle = 'white';
-        ctx.fillRect(0, 0, previewCanvasRef.current.width, previewCanvasRef.current.height);
-        ctx.drawImage(eventPreviewCanvas, 0, 0);
-      }
-    }
-  }, [eventPreviewCanvas]);
 
   useEffect(() => {
     // If not connected, redirect to connect page
@@ -150,68 +130,6 @@ export default function DashboardPage() {
           </CardContent>
           </Card>
 
-          {/* Event Badge Preview - Show when Event tab is active */}
-          {activeTab === 'event' && eventPreviewCanvas && (
-            <Card className="flex-shrink-0">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base">Badge Preview</CardTitle>
-                <CardDescription className="text-xs">Live preview of event badge</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="bg-white p-2 rounded-lg border-2 border-gray-300">
-                  <div className="bg-gray-100 p-1.5 rounded mb-2 text-xs text-gray-600 text-center">
-                    Thermal Printer Preview (384px width)
-                  </div>
-                  <div className="flex justify-center bg-white p-2 rounded overflow-x-auto">
-                    <canvas
-                      ref={previewCanvasRef}
-                      className="border border-gray-300 shadow-sm"
-                      style={{ 
-                        imageRendering: 'pixelated', 
-                        maxWidth: '100%', 
-                        width: '100%',
-                        height: 'auto',
-                        display: 'block'
-                      }}
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          )}
-
-          {/* Element Layer List - Show when Event tab is active and in designer mode */}
-          {activeTab === 'event' && designerElements.length > 0 && (
-            <ElementLayerList
-              elements={designerElements}
-              selectedElement={selectedDesignerElement}
-              onSelectElement={setSelectedDesignerElement}
-              onMoveUp={(index) => {
-                const newElements = [...designerElements];
-                if (index === designerElements.length - 1) return;
-                [newElements[index], newElements[index + 1]] = [newElements[index + 1], newElements[index]];
-                setDesignerElements(newElements);
-              }}
-              onMoveDown={(index) => {
-                const newElements = [...designerElements];
-                if (index === 0) return;
-                [newElements[index], newElements[index - 1]] = [newElements[index - 1], newElements[index]];
-                setDesignerElements(newElements);
-              }}
-              onBringToFront={(id) => {
-                const element = designerElements.find(el => el.id === id);
-                if (!element) return;
-                const newElements = [...designerElements.filter(el => el.id !== id), element];
-                setDesignerElements(newElements);
-              }}
-              onSendToBack={(id) => {
-                const element = designerElements.find(el => el.id === id);
-                if (!element) return;
-                const newElements = [element, ...designerElements.filter(el => el.id !== id)];
-                setDesignerElements(newElements);
-              }}
-            />
-          )}
         </div>
 
         {/* Right Side - Print Options - Expanded */}
@@ -219,7 +137,6 @@ export default function DashboardPage() {
           <h2 className="text-lg font-semibold text-foreground mb-3 flex-shrink-0">Print Options</h2>
           <div className="w-full overflow-x-hidden flex-1 min-h-0 flex flex-col">
             <PrinterTabs 
-              onEventPreviewUpdate={setEventPreviewCanvas}
               onTabChange={setActiveTab}
             />
           </div>
