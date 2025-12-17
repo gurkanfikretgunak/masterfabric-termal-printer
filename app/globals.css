@@ -128,3 +128,568 @@ button, a, [role="button"] {
   background-size: 200% 100%;
 }
 
+/* ================================
+   ETHEREAL MENAGERIE STYLES
+   ================================ */
+
+/* Main container */
+.ethereal-menagerie-container {
+  position: relative;
+  min-height: 100vh;
+  width: 100%;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    hsl(0, 0%, 100%) 0%,
+    hsl(0, 0%, 98%) 50%,
+    hsl(0, 0%, 96%) 100%
+  );
+  cursor: default;
+  user-select: none;
+}
+
+/* Glassmorphism layer */
+.ethereal-glass-layer {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(100px);
+  -webkit-backdrop-filter: blur(100px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* RGB Flow Background */
+.ethereal-rgb-flow {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  background: linear-gradient(
+    135deg,
+    hsl(260, 60%, 15%) 0%,
+    hsl(280, 50%, 20%) 25%,
+    hsl(200, 60%, 20%) 50%,
+    hsl(180, 50%, 18%) 75%,
+    hsl(260, 60%, 15%) 100%
+  );
+  background-size: 400% 400%;
+  transition: opacity 2s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ethereal-rgb-flow.active {
+  opacity: 1;
+  animation: rgbFlow 15s ease-in-out infinite;
+}
+
+@keyframes rgbFlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 50% 100%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  75% {
+    background-position: 50% 0%;
+  }
+}
+
+/* Animals layer */
+.ethereal-animals-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Individual animal containers */
+.animal-container {
+  position: absolute;
+  opacity: 0.06;
+  transition: opacity 2s ease, transform 0.8s ease;
+}
+
+.ethereal-menagerie-container.awakened .animal-container {
+  opacity: 0.25;
+}
+
+/* Ethereal animal base styles */
+.ethereal-animal {
+  width: 100%;
+  height: 100%;
+  color: hsl(0, 0%, 20%);
+  transition: color 2s ease, filter 2s ease;
+}
+
+/* Awakened state - animals glow */
+.ethereal-animal.awakened {
+  color: hsl(280, 70%, 70%);
+  filter: drop-shadow(0 0 20px hsla(280, 80%, 60%, 0.5))
+          drop-shadow(0 0 40px hsla(200, 80%, 60%, 0.3));
+  animation: animalPulse 4s ease-in-out infinite;
+}
+
+@keyframes animalPulse {
+  0%, 100% {
+    filter: drop-shadow(0 0 20px hsla(280, 80%, 60%, 0.5))
+            drop-shadow(0 0 40px hsla(200, 80%, 60%, 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 30px hsla(200, 80%, 70%, 0.6))
+            drop-shadow(0 0 60px hsla(180, 80%, 60%, 0.4));
+  }
+}
+
+/* Eagle positioning */
+.eagle-container {
+  top: 5%;
+  left: 5%;
+  width: 180px;
+  height: 180px;
+  transform: rotate(-15deg);
+}
+
+.ethereal-menagerie-container.awakened .eagle-container {
+  animation: eagleSoar 8s ease-in-out infinite;
+}
+
+@keyframes eagleSoar {
+  0%, 100% {
+    transform: rotate(-15deg) translateY(0);
+  }
+  50% {
+    transform: rotate(-10deg) translateY(-15px);
+  }
+}
+
+/* Panther positioning */
+.panther-container {
+  bottom: 15%;
+  right: 5%;
+  width: 220px;
+  height: 110px;
+  transform: scaleX(-1);
+}
+
+.ethereal-menagerie-container.awakened .panther-container {
+  animation: pantherLeap 6s ease-in-out infinite;
+}
+
+@keyframes pantherLeap {
+  0%, 100% {
+    transform: scaleX(-1) translateX(0);
+  }
+  50% {
+    transform: scaleX(-1) translateX(10px) translateY(-5px);
+  }
+}
+
+/* Deer antlers positioning */
+.deer-container {
+  top: 10%;
+  right: 10%;
+  width: 140px;
+  height: 160px;
+  transform: rotate(10deg);
+}
+
+.ethereal-menagerie-container.awakened .deer-container {
+  animation: deerSway 7s ease-in-out infinite;
+}
+
+@keyframes deerSway {
+  0%, 100% {
+    transform: rotate(10deg);
+  }
+  50% {
+    transform: rotate(15deg);
+  }
+}
+
+/* Wolf positioning */
+.wolf-container {
+  bottom: 20%;
+  left: 8%;
+  width: 120px;
+  height: 160px;
+  transform: rotate(-5deg);
+}
+
+.ethereal-menagerie-container.awakened .wolf-container {
+  animation: wolfHowl 5s ease-in-out infinite;
+}
+
+@keyframes wolfHowl {
+  0%, 100% {
+    transform: rotate(-5deg) scale(1);
+  }
+  30% {
+    transform: rotate(-5deg) scale(1.03);
+  }
+  60% {
+    transform: rotate(-3deg) scale(1);
+  }
+}
+
+/* SVG path animations for awakened state */
+.ethereal-animal.awakened path,
+.ethereal-animal.awakened ellipse,
+.ethereal-animal.awakened circle {
+  animation: pathGlow 3s ease-in-out infinite;
+}
+
+@keyframes pathGlow {
+  0%, 100% {
+    stroke-opacity: 1;
+    fill-opacity: 1;
+  }
+  50% {
+    stroke-opacity: 0.7;
+    fill-opacity: 0.7;
+  }
+}
+
+/* Floating particles */
+.ethereal-particles {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 2s ease;
+}
+
+.ethereal-particles.active {
+  opacity: 1;
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, hsla(280, 70%, 70%, 0.8), hsla(200, 70%, 70%, 0.6));
+  opacity: 0;
+}
+
+.ethereal-particles.active .particle {
+  animation: particleFloat 10s ease-in-out infinite;
+}
+
+/* Individual particle positions and delays */
+.particle-1 { left: 10%; top: 20%; animation-delay: 0s !important; }
+.particle-2 { left: 25%; top: 60%; animation-delay: 0.8s !important; }
+.particle-3 { left: 40%; top: 30%; animation-delay: 1.6s !important; }
+.particle-4 { left: 55%; top: 70%; animation-delay: 2.4s !important; }
+.particle-5 { left: 70%; top: 25%; animation-delay: 3.2s !important; }
+.particle-6 { left: 85%; top: 55%; animation-delay: 4s !important; }
+.particle-7 { left: 15%; top: 80%; animation-delay: 4.8s !important; }
+.particle-8 { left: 30%; top: 45%; animation-delay: 5.6s !important; }
+.particle-9 { left: 60%; top: 15%; animation-delay: 6.4s !important; }
+.particle-10 { left: 75%; top: 85%; animation-delay: 7.2s !important; }
+.particle-11 { left: 45%; top: 50%; animation-delay: 8s !important; }
+.particle-12 { left: 90%; top: 35%; animation-delay: 8.8s !important; }
+
+@keyframes particleFloat {
+  0%, 100% {
+    opacity: 0;
+    transform: translateY(0) scale(0.5);
+  }
+  10% {
+    opacity: 0.8;
+    transform: translateY(-10px) scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: translateY(-30px) scale(0.8);
+  }
+  90% {
+    opacity: 0.3;
+    transform: translateY(-50px) scale(0.6);
+  }
+}
+
+/* Status Indicator - Enhanced UX */
+.status-indicator {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  z-index: 100;
+  padding: 12px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-radius: 24px;
+  box-shadow: 
+    0 4px 20px rgba(0, 0, 0, 0.08),
+    0 0 0 1px rgba(0, 0, 0, 0.04);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.status-indicator.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.status-indicator.awakened {
+  background: rgba(30, 20, 50, 0.9);
+  box-shadow: 
+    0 4px 30px rgba(139, 92, 246, 0.3),
+    0 0 0 1px rgba(139, 92, 246, 0.2),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+/* Status dots row */
+.status-dots {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: hsl(0, 0%, 88%);
+  border: 2px solid hsl(0, 0%, 80%);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.status-dot.filled {
+  background: linear-gradient(135deg, hsl(280, 65%, 55%), hsl(200, 65%, 55%));
+  border-color: transparent;
+  transform: scale(1.15);
+  box-shadow: 
+    0 0 12px hsla(280, 70%, 55%, 0.5),
+    0 0 24px hsla(280, 70%, 55%, 0.2);
+}
+
+.status-dot.glow {
+  animation: dotGlow 1s ease-in-out infinite;
+}
+
+@keyframes dotGlow {
+  0%, 100% {
+    box-shadow: 
+      0 0 12px hsla(280, 70%, 55%, 0.5),
+      0 0 24px hsla(280, 70%, 55%, 0.2);
+  }
+  50% {
+    box-shadow: 
+      0 0 20px hsla(200, 70%, 60%, 0.7),
+      0 0 40px hsla(200, 70%, 60%, 0.3);
+  }
+}
+
+/* Awakened state - all dots filled and glowing */
+.status-indicator.awakened .status-dot {
+  background: linear-gradient(135deg, hsl(280, 70%, 65%), hsl(200, 70%, 65%));
+  border-color: transparent;
+  animation: dotGlow 2s ease-in-out infinite;
+}
+
+.status-indicator.awakened .status-dot:nth-child(2) {
+  animation-delay: 0.3s;
+}
+
+.status-indicator.awakened .status-dot:nth-child(3) {
+  animation-delay: 0.6s;
+}
+
+/* Status text */
+.status-text {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  color: hsl(0, 0%, 40%);
+  opacity: 0;
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+}
+
+.status-text.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.status-indicator.awakened .status-text {
+  color: hsl(280, 60%, 80%);
+  text-shadow: 0 0 10px hsla(280, 70%, 70%, 0.5);
+}
+
+/* Hint indicator */
+.hint-indicator {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 99;
+  padding: 10px 16px;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-radius: 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+  animation: hintPulse 3s ease-in-out infinite, hintFadeIn 0.5s ease;
+}
+
+@keyframes hintFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes hintPulse {
+  0%, 100% {
+    opacity: 0.7;
+    transform: translateX(-50%) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translateX(-50%) scale(1.02);
+  }
+}
+
+.hint-icon {
+  width: 18px;
+  height: 18px;
+  color: hsl(0, 0%, 50%);
+  animation: hintIconBounce 2s ease-in-out infinite;
+}
+
+@keyframes hintIconBounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+.hint-indicator span {
+  font-size: 12px;
+  font-weight: 500;
+  color: hsl(0, 0%, 45%);
+  letter-spacing: 0.3px;
+}
+
+/* Main content layer */
+.ethereal-content {
+  position: relative;
+  z-index: 10;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Text color adaptation for awakened state */
+.ethereal-menagerie-container.awakened .ethereal-content {
+  --foreground: 0 0% 95%;
+  --muted-foreground: 0 0% 75%;
+}
+
+.ethereal-menagerie-container.awakened h1,
+.ethereal-menagerie-container.awakened p {
+  transition: color 2s ease;
+}
+
+.ethereal-menagerie-container.awakened h1 {
+  color: hsl(0, 0%, 95%);
+  text-shadow: 0 0 30px hsla(280, 60%, 70%, 0.3);
+}
+
+.ethereal-menagerie-container.awakened .text-muted-foreground {
+  color: hsl(0, 0%, 80%) !important;
+}
+
+/* Card styling for awakened state */
+.ethereal-menagerie-container.awakened .bg-muted\/50 {
+  background: rgba(255, 255, 255, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.ethereal-menagerie-container.awakened .text-foreground {
+  color: hsl(0, 0%, 95%) !important;
+}
+
+/* Button enhancement for awakened state */
+.ethereal-menagerie-container.awakened button {
+  background: linear-gradient(135deg, hsla(280, 60%, 50%, 0.9), hsla(200, 60%, 50%, 0.9)) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 20px hsla(280, 60%, 50%, 0.3);
+  transition: all 0.3s ease;
+}
+
+.ethereal-menagerie-container.awakened button:hover {
+  box-shadow: 0 0 30px hsla(280, 60%, 60%, 0.5);
+  transform: translateY(-2px);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .eagle-container {
+    width: 120px;
+    height: 120px;
+    top: 3%;
+    left: 3%;
+  }
+  
+  .panther-container {
+    width: 160px;
+    height: 80px;
+    bottom: 12%;
+    right: 3%;
+  }
+  
+  .deer-container {
+    width: 100px;
+    height: 120px;
+    top: 8%;
+    right: 5%;
+  }
+  
+  .wolf-container {
+    width: 90px;
+    height: 120px;
+    bottom: 18%;
+    left: 5%;
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .ethereal-rgb-flow.active,
+  .ethereal-animal.awakened,
+  .ethereal-menagerie-container.awakened .animal-container,
+  .ethereal-particles.active .particle {
+    animation: none !important;
+  }
+  
+  .ethereal-rgb-flow.active {
+    background-position: 50% 50%;
+  }
+}
+
